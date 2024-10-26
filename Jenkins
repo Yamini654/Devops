@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    // Environment Variables (if needed)
+    environment {
+        GIT_REPO = 'https://github.com/yourusername/your-repo.git'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository
+                git branch: 'main', url: "${GIT_REPO}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Add your build script here (e.g., for a Node.js project: npm install)
+                sh 'echo "Building the project..."'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Add testing script here (e.g., npm test or any other test commands)
+                sh 'echo "Running tests..."'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Add deployment script here
+                sh 'echo "Deploying the project..."'
+            }
+        }
+    }
+
+    // Optional: Post actions to clean up, notify, etc.
+    post {
+        always {
+            echo 'Cleaning up resources...'
+            // Add cleanup steps if necessary
+        }
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
